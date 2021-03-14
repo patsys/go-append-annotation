@@ -3,4 +3,4 @@ pathPrefix: ../containerSSH-operator/modules-modified 	// prefix to all path
 changes:
   "configuration/appconfig.go": 			// file to change
     Listen:						// variable anotation should add
-    -  "// +kubebuilder:validation:Maximum=100"		// annotation
+    -  "// +optional"					// annotation

@@ -56,7 +56,7 @@ func init() {
 
 func main() {
 	for path, changes := range cfg.Changes {
-		fullPath := filepath.Join(cfg.OutPrefix,path)
+		fullPath := filepath.Join(cfg.PathPrefix,path)
 		read, err := ioutil.ReadFile(fullPath)
 		if err != nil {
 			panic(err)
@@ -65,14 +65,11 @@ func main() {
 		newContent := string(read)
 		for variable, annotations := range changes{
 			for _, annotation := range annotations {
-				fmt.Println("^(\\t+)(" + variable + ".*)")
 				m := regexp.MustCompile("(\\t+)(" + variable + ".*)") 
-				fmt.Println(m.MatchString(newContent))
-				newContent = m.ReplaceAllString(newContent, "\n${1}" + annotation + "\n${1}${2}")
+				newContent = m.ReplaceAllString(newContent, "${1}" + annotation + "\n${1}${2}")
 			}
 
 		}
-		//fmt.Println(newContent)
 		err = ioutil.WriteFile(fullPath, []byte(newContent), 0)
 		if err != nil {
 			panic(err)

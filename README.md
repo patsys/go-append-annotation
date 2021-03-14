@@ -7,5 +7,5 @@ On write a Kubernetes Operator for a third party Application written in go, the 
 ## Solution
 * Use git submodule to get go module local
 * Replace submodule with local in go.mod
-* Generate a config.yml define the annotions
-* Run this program wit "-config config.yml" to add annotions
+* Generate a config.yml define the annotations
+* Run this program with "-config config.yml" to add annotions

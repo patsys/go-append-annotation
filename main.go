@@ -13,9 +13,13 @@ import (
 
 type Config struct {
 	PathPrefix string			`yaml:"pathPrefix"`
-	Changes map[string]map[string][]string	`yaml:"changes"`
+	Changes map[string]Changes		`yaml:"changes"`
 }
 
+type Changes struct {
+	Variables map[string][]string	`yaml:"variables"`
+	Types map[string][]string	`yaml:"types"`
+}
 
 var (
 	cfg = &Config{}
@@ -63,10 +67,21 @@ func main() {
 		}
 		fmt.Println(fullPath)
 		newContent := string(read)
-		for variable, annotations := range changes{
-			for _, annotation := range annotations {
-				m := regexp.MustCompile("(\\t+)(" + variable + ".*)") 
-				newContent = m.ReplaceAllString(newContent, "${1}" + annotation + "\n${1}${2}")
+		if changes.Variables != nil {
+			for variable, annotations := range changes.Variables{
+				for _, annotation := range annotations {
+					m := regexp.MustCompile("(\\t+)(" + variable + ".*)") 
+					newContent = m.ReplaceAllString(newContent, "${1}" + annotation + "\n${1}${2}")
+				}
+			}
+
+		}
+		if changes.Types != nil {
+			for types, annotations := range changes.Types{
+				for _, annotation := range annotations {
+					m := regexp.MustCompile("(\\t*)(type " + types + " struct.*)") 
+					newContent = m.ReplaceAllString(newContent, "${1}" + annotation + "\n${1}${2}")
+				}
 			}
 
 		}

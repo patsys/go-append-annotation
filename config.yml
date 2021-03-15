@@ -2,5 +2,9 @@
 pathPrefix: ../containerSSH-operator/modules-modified 	// prefix to all path
 changes:
   "configuration/appconfig.go": 			// file to change
-    Listen:						// variable anotation should add
-    -  "// +optional"					// annotation
+    variables:
+      Listen:						// variable anotation should add
+      -  "// +optional"					// annotation
+    types:
+      AppConfig:					// type anotation should add
+      -  "// +optional"					// annotation

@@ -8,3 +8,6 @@ changes:
     types:
       AppConfig:					// type anotation should add
       -  "// +optional"					// annotation
+    packages:
+      AppConfig:					// type anotation should add
+      -  "// +kubebuilder:validation:Optional"		// annotation

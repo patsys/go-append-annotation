@@ -19,6 +19,7 @@ type Config struct {
 type Changes struct {
 	Variables map[string][]string	`yaml:"variables"`
 	Types map[string][]string	`yaml:"types"`
+	Packages map[string][]string	`yaml:"packages"`
 }
 
 var (
@@ -85,6 +86,16 @@ func main() {
 			}
 
 		}
+		
+		if changes.Packages != nil {
+			for packages, annotations := range changes.Packages{
+				for _, annotation := range annotations {
+					m := regexp.MustCompile("(\\t*)(package " + packages + ".*)") 
+					newContent = m.ReplaceAllString(newContent, "${1}" + annotation + "\n${1}${2}")
+				}
+			}
+		}
+
 		err = ioutil.WriteFile(fullPath, []byte(newContent), 0)
 		if err != nil {
 			panic(err)
